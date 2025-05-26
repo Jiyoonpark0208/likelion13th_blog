@@ -1,6 +1,7 @@
 package likelion13th.blog.controller;
 
 import likelion13th.blog.dto.*;
+import likelion13th.blog.dto.request.ArticleDetailResponse;
 import likelion13th.blog.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class ArticleController {
     /*게시글 단일 조회*/
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> ReadArticle(@PathVariable long id){
-        ArticleResponse response=articleService.getArticle(id);
+        ArticleDetailResponse response=articleService.getArticle(id);
         return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", response));
 
     }

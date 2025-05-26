@@ -4,7 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import likelion13th.blog.domain.Article;
 import likelion13th.blog.dto.*;
+import likelion13th.blog.dto.request.ArticleDetailResponse;
 import likelion13th.blog.repository.ArticleRepository;
+import likelion13th.blog.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
+
 
     //게시글 생성
     public ArticleResponse addArticle(AddArticleRequest request){
@@ -53,20 +57,30 @@ public class ArticleService {
     }*/
 
     //단일 글 조회
-    public ArticleResponse getArticle(Long id){
+    public ArticleDetailResponse getArticle(Long id){
          /*1. JPA의 findById()를 사용하여 DB에서 id가 일치하는 게시글 찾기.
               id가 일치하는 게시글이 DB에 없으면 에러 반환*/
         Article article=articleRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다. ID: "+id));
 
-        //2. ArticleResponse DTO 생성하여 반환
-        return ArticleResponse.of(article);
+        /*2. 해당 게시글에 달려있는 댓글들 가져오기*/
+        List<CommentResponse> comments=getCommentList(article);
+
+        //3. ArticleResponse DTO 생성하여 반환
+        return ArticleDetailResponse.of(article,comments);
+    }
+
+    //특정 게시글에 달려있는 댓글목록 가져오기
+    private List<CommentResponse> getCommentList(Article article){
+        return commentRepository.findByArticle(article).stream()
+                .map(comment->CommentResponse.of(comment))
+                .toList();
     }
 
 
     //글 수정
     @Transactional
-    public void updateArticle(Long id, UpdateArticleRequest request)  {
+    public ArticleResponse updateArticle(Long id, UpdateArticleRequest request)  {
 
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
@@ -82,7 +96,11 @@ public class ArticleService {
 
         /*3. 게시글 수정 후 저장 */
         article.update(request.getTitle(),request.getContent());
+        article=articleRepository.save(article);
 
+
+        /* ArticleResponse로 변환해서 리턴 */
+        return ArticleResponse.of(article);
 
     }
 
