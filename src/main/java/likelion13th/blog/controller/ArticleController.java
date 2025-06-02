@@ -1,7 +1,13 @@
 package likelion13th.blog.controller;
 
-import likelion13th.blog.dto.*;
-import likelion13th.blog.dto.request.ArticleDetailResponse;
+import likelion13th.blog.domain.Article;
+import likelion13th.blog.dto.request.AddArticleRequest;
+import likelion13th.blog.dto.request.DeleteRequest;
+import likelion13th.blog.dto.request.UpdateArticleRequest;
+import likelion13th.blog.dto.resonse.ApiResponse;
+import likelion13th.blog.dto.resonse.ArticleDetailResponse;
+import likelion13th.blog.dto.resonse.ArticleResponse;
+import likelion13th.blog.dto.resonse.SimpleArticleResponse;
 import likelion13th.blog.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,8 +55,8 @@ public class ArticleController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateArticle(@PathVariable long id,
                                                      @RequestBody UpdateArticleRequest request){
-        articleService.updateArticle(id,request);
-        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 수정 성공"));
+       ArticleResponse response=articleService.updateArticle(id,request);
+        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 수정 성공",response));
 
     }
 

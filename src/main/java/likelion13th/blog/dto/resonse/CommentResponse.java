@@ -1,4 +1,4 @@
-package likelion13th.blog.dto;
+package likelion13th.blog.dto.resonse;
 
 import likelion13th.blog.domain.Comment;
 import lombok.AllArgsConstructor;

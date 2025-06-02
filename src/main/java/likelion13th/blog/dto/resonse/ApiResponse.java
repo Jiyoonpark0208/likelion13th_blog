@@ -1,4 +1,4 @@
-package likelion13th.blog.dto;
+package likelion13th.blog.dto.resonse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

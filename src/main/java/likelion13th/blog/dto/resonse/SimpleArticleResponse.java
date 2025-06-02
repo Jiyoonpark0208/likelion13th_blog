@@ -1,29 +1,28 @@
-package likelion13th.blog.dto;
+package likelion13th.blog.dto.resonse;
 
 import likelion13th.blog.domain.Article;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
 @AllArgsConstructor
-public class ArticleResponse {
+public class SimpleArticleResponse {
+
     private final Long id;
     private final String title;
-    private final String content;
     private final String author;
-    private final LocalDateTime createdAt;
 
-    public static ArticleResponse of(Article article) {
-        return ArticleResponse.builder()
+    /*
+    settings -> plugin / marketplace에서 lombok을 설치해야했음
+     */
+
+    public static SimpleArticleResponse of(Article article) {
+        return SimpleArticleResponse.builder()
                 .id(article.getId())
                 .title(article.getTitle())
-                .content(article.getContent())
                 .author(article.getAuthor())
-                .createdAt(article.getCreatedAt())
                 .build();
     }
 }

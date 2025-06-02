@@ -1,15 +1,15 @@
 package likelion13th.blog.controller;
 
 
-import likelion13th.blog.dto.AddCommentRequest;
-import likelion13th.blog.dto.ApiResponse;
-import likelion13th.blog.dto.CommentResponse;
+import likelion13th.blog.dto.request.AddCommentRequest;
+import likelion13th.blog.dto.resonse.ApiResponse;
+import likelion13th.blog.dto.resonse.CommentResponse;
+import likelion13th.blog.dto.request.DeleteRequest;
 import likelion13th.blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import likelion13th.blog.dto.*;
 
 @RestController
 @RequiredArgsConstructor
